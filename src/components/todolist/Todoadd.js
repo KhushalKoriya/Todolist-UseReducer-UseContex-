@@ -4,7 +4,7 @@ import TodoContext from "../../store/TodoContext";
 
 const Todoadd = (props) => {
   const [enteredValue, setEnteredValue] = useState({
-    id :  Math.random().toString(),
+    id :  null,
     value : '',
     isChecked : false
   });
@@ -23,6 +23,7 @@ const Todoadd = (props) => {
   const valueChangeHandler = (e) => {
     setEnteredValue({
       ...enteredValue,
+      id :  Math.random().toString(),
       value : e.target.value
     });
   };

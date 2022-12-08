@@ -17,14 +17,17 @@ const dummydata = [
 var initialValue = {
   dummydata: dummydata,
   updatedData: dummydata,
+  darkMode: false,
 };
 
 const todoReducer = (state, action) => {
   switch (action.type) {
     case "ADD":
       return {
+        ...state,
         dummydata: state.dummydata.concat(action.item),
         updatedData: state.dummydata.concat(action.item),
+       
       };
     case "DELETE":
       const deleteUserData = state.dummydata.filter(
@@ -32,6 +35,8 @@ const todoReducer = (state, action) => {
       );
 
       return {
+        ...state,
+        updatedData :state.updatedData,
         dummydata: deleteUserData,
       };
     case "SEARCH":
@@ -41,6 +46,7 @@ const todoReducer = (state, action) => {
         ); // true
       });
       return {
+        ...state,
         updatedData: state.updatedData,
         dummydata: action.itemInput.length ? filterItems : state.updatedData,
       };
@@ -52,28 +58,41 @@ const todoReducer = (state, action) => {
       });
 
       return {
-        updatedData : updatedCheckedData,
+        ...state,
+        updatedData: updatedCheckedData,
         dummydata: updatedCheckedData,
       };
 
     case "CHANGESTATE":
       var dataArray = state.updatedData;
-      if(action.itemcheckedCase === "all"){
+      if (action.itemcheckedCase === "all") {
         dataArray = state.updatedData;
-      } else if(action.itemcheckedCase === "completed"){
-        dataArray =  state.updatedData.filter((item) => {
-          return item.isChecked === true;
-        })
-      } else if(action.itemcheckedCase === "active"){
-
+      } else if (action.itemcheckedCase === "completed") {
         dataArray = state.updatedData.filter((item) => {
-        return item.isChecked === false;
-      });
+          return item.isChecked === true;
+        });
+      } else if (action.itemcheckedCase === "active") {
+        dataArray = state.updatedData.filter((item) => {
+          return item.isChecked === false;
+        });
       }
       return {
-        updatedData : state.updatedData,
-        dummydata: dataArray
+         ...state,
+        updatedData: state.updatedData,
+        dummydata: dataArray,
       };
+    case "THEME":
+      if( state.darkMode === false){
+      return { 
+        ...state,
+        darkMode:true 
+      };}
+      else{
+        return { 
+          ...state,
+          darkMode:false 
+        };
+      }
   }
 
   return initialValue;
@@ -98,16 +117,21 @@ const TodoProvider = (props) => {
       itemcheckedCase: footerChangeFnHandlerItem,
     });
   };
+  const changeThemeHandler = (changeThemeState) => {
+    dispatchToDo({ type: "THEME", changeTheme: changeThemeState });
+  };
 
   const [todoState, dispatchToDo] = useReducer(todoReducer, initialValue);
   const todoContext = {
     dummydata: todoState.dummydata,
     updatedData: todoState.dummydata,
+    darkMode:todoState.darkMode,
     addItem: addItemHandler,
     deleteItem: deleteItemHandler,
     searchItem: searchItemHandler,
     checkedItem: checkedItemHandler,
     footerChangeFn: footerChangeFnHandler,
+    changeTheme:changeThemeHandler
   };
 
   return (

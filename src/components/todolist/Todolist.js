@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Card from "../UI/Card";
 import "./Todolist.css";
 import TodolistItem from "../todolist/Todolistitem";
@@ -10,20 +10,17 @@ import TodoContext from "../../store/TodoContext";
 const Todolist = (props) => {
   const dataCtx = useContext(TodoContext);
 
- 
-  const [data, setData] = useState([]);
-  const [filteredData, setfilteredData] = useState(props.data);
-  // const [isDataUpdate, setIsDataUpdate] = useState([]);
-  const [change, setChange] = useState('add');
+  // const [data, setData] = useState([]);
+  // const [filteredData, setfilteredData] = useState(props.data);
+  const [change, setChange] = useState("add");
 
   // const dataArray = dataCtx.updatedData.length ? dataCtx.updatedData : dataCtx.dummydata;
   // console.log(dataArray);
 
-
-  useEffect(() => {
-    setData(props.data);
-    setfilteredData(props.data);
-  }, [dataCtx.updatedData]);
+  // useEffect(() => {
+  //   // setData(props.data);
+  //   // setfilteredData(props.data);
+  // }, [dataCtx.updatedData]);
 
   // const onSaveTodoData = (enteredTodoData, i) => {
   //   // const todoData = {
@@ -51,58 +48,57 @@ const Todolist = (props) => {
     }
     if (change !== changeState) {
       setChange(changeState);
-      setfilteredData(data)
-       dataCtx.footerChangeFn(change);
+      // setfilteredData(data);
+      dataCtx.footerChangeFn(change);
+      console.log(dataCtx.darkMode);
     } else {
       setChange("");
     }
   };
-  const onDeleteUser = (dataId) => {
-    const deleteUserData = filteredData.filter((data1) => data1.id !== dataId);
-    setfilteredData(deleteUserData);
-    setData(deleteUserData);
-  };
-  const footerChangeFn = (footerCurrentState) => {
-    if (footerCurrentState === "all") {
-      setfilteredData(data);
-      // setData((prevTodoData) => {
-      //   return [...prevTodoData];
-      // });
-      console.log(data);
-    }
-    if (footerCurrentState === "completed") {
-      const completedData = data.filter((item) => {
-        return item.isChecked === true;
-      });
-      setfilteredData(completedData);
-      setData((prevTodoData) => {
-        return [...prevTodoData];
-      });
-      // setData(completedData);
-      console.log(data);
-      // setData((prevTodoData) => {
-      //   return [...prevTodoData, data];
-      // });
-    }
-    if (footerCurrentState == "active") {
-      const activeData = data.filter((item) => {
-        return item.isChecked === false;
-      });
-      setfilteredData(
-       activeData
-      );
-      setData((prevTodoData) => {
-        return [...prevTodoData];
-      });
-      // console.log( [...data, activeData]);
-      // setData((prevTodoData) => {
-      //   return [...prevTodoData, data];
-      // });
-    }
-    // console.log(footerCurrentState);
-    // setChange(footerCurrentState);
-    // props.handleFooterClick(footerCurrentState);
-  };
+  // const onDeleteUser = (dataId) => {
+  //   const deleteUserData = filteredData.filter((data1) => data1.id !== dataId);
+  //   setfilteredData(deleteUserData);
+  //   setData(deleteUserData);
+  // };
+  // const footerChangeFn = (footerCurrentState) => {
+  //   if (footerCurrentState === "all") {
+  //     setfilteredData(data);
+  //     // setData((prevTodoData) => {
+  //     //   return [...prevTodoData];
+  //     // });
+  //     console.log(data);
+  //   }
+  //   if (footerCurrentState === "completed") {
+  //     const completedData = data.filter((item) => {
+  //       return item.isChecked === true;
+  //     });
+  //     setfilteredData(completedData);
+  //     setData((prevTodoData) => {
+  //       return [...prevTodoData];
+  //     });
+  //     // setData(completedData);
+  //     console.log(data);
+  //     // setData((prevTodoData) => {
+  //     //   return [...prevTodoData, data];
+  //     // });
+  //   }
+  //   if (footerCurrentState == "active") {
+  //     const activeData = data.filter((item) => {
+  //       return item.isChecked === false;
+  //     });
+  //     setfilteredData(activeData);
+  //     setData((prevTodoData) => {
+  //       return [...prevTodoData];
+  //     });
+  //     // console.log( [...data, activeData]);
+  //     // setData((prevTodoData) => {
+  //     //   return [...prevTodoData, data];
+  //     // });
+  //   }
+  //   // console.log(footerCurrentState);
+  //   // setChange(footerCurrentState);
+  //   // props.handleFooterClick(footerCurrentState);
+  // };
   // const checkedUpdatedItem = (itemId) => {
   //   console.log(itemId);
   //   const updatedData = dataCtx.updatedData.map((item) => {
@@ -110,18 +106,22 @@ const Todolist = (props) => {
   //       ? { ...item, isChecked: !item.isChecked }
   //       : item;
   //   });
-   
+
   //   console.log(updatedData);
   //   setfilteredData(updatedData);
-  //   setData(updatedData); 
+  //   setData(updatedData);
   // };
 
   // const dataArray = dataCtx.updatedData.length ? dataCtx.updatedData : dataCtx.dummydata;
-
+   const onClick =()=>{
+    dataCtx.changeTheme();
+    console.log(dataCtx.darkMode);
+}
   return (
     <div>
-      <Card className="todolist">
+      <Card className='todolist'>
         <h1>Things To Do</h1>
+        <label className="switch"><input type="checkbox" onClick={onClick} /><span className="slider round"></span></label>
 
         {(() => {
           switch (change) {
@@ -140,7 +140,7 @@ const Todolist = (props) => {
               <TodolistItem
                 dataitem={dataitem}
                 // checkedUpdatedItem={checkedUpdatedItem}
-                onDeleteUser={onDeleteUser}
+                // onDeleteUser={onDeleteUser}
               />
             </li>
           ))}
@@ -148,7 +148,7 @@ const Todolist = (props) => {
         <Footer
           handleClick={handleClick}
           // data={filteredData}
-          footerChangeFn={footerChangeFn}
+          // footerChangeFn={footerChangeFn}
         />
       </Card>
     </div>

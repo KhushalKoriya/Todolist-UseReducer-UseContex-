@@ -4,7 +4,6 @@ import React, { useState, useContext } from "react";
 import TodoContext from "../../store/TodoContext";
  const Tododelete =(props)=>{
   const dataCtx = useContext(TodoContext);
-  console.log(dataCtx.dummydata.id);
     const userDeleteHandler = (userDeleteId) => {
       dataCtx.deleteItem(userDeleteId);
         // props.onDeleteUserHandler(userDeleteId);
