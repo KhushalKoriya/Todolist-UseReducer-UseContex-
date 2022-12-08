@@ -1,0 +1,15 @@
+.checked-item {
+  text-decoration: line-through;
+}
+.delete{
+  background: url(../../assets/images/delete-icon.svg) no-repeat center;
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  float: right;
+  margin-top: 5px;
+  cursor: pointer
+}
+.checkbox{
+  margin-right: 10px;
+}
