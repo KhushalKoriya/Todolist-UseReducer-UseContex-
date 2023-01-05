@@ -30,16 +30,17 @@ const todoReducer = (state, action) => {
        
       };
     case "DELETE":
-      const deleteUserData = state.dummydata.filter(
+      const deleteUserData = state.updatedData.filter(
         (data1) => data1.id !== action.itemId
       );
 
       return {
         ...state,
-        updatedData :state.updatedData,
+        updatedData :deleteUserData,
         dummydata: deleteUserData,
       };
     case "SEARCH":
+   
       const filterItems = state.dummydata.filter((item) => {
         return (
           item.value.toLowerCase().indexOf(action.itemInput.toLowerCase()) > -1
@@ -47,8 +48,8 @@ const todoReducer = (state, action) => {
       });
       return {
         ...state,
-        updatedData: state.updatedData,
-        dummydata: action.itemInput.length ? filterItems : state.updatedData,
+        updatedData: state.dummydata,
+        dummydata: action.itemInput.length ? filterItems : state.dummydata,
       };
     case "CHECKED":
       const updatedCheckedData = state.dummydata.map((item) => {
@@ -75,6 +76,9 @@ const todoReducer = (state, action) => {
         dataArray = state.updatedData.filter((item) => {
           return item.isChecked === false;
         });
+      }
+      else if(action.itemcheckedCase != action.type){
+        dataArray = state.dummydata;
       }
       return {
          ...state,
